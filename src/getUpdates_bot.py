@@ -2,12 +2,11 @@ from time import sleep
 from dotenv import load_dotenv
 import os
 
-from classes import Response, Result
+from common.classes import Response, Result
 load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 
 import requests
-import json
 
 # pass the returned object of requests.get r as r.json()
 def parse_response(result: Result):
