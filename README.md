@@ -29,12 +29,17 @@ The problem with this library is that we aren't using any Telegram API, so feel 
 ## Asking the endpoints
 All queries to the Telegram Bot Api must be made by the url `https://api.telegram.org/bot<token>/METHOD_NAME`. The value to include in the request can be put either in the query params or in the body as _application/json_
 
+### Disclaimer: WebHooks
+In the next part we are going to see how to create our Telegram server by constantly asking for updates. There is a more efficient way to do that by using webhooks: you send an url to the Telegram API and when an update is ready it will be automatically be sent to you.
+
+Unfortunately, to give an url from our personal machine is no easy task: most wifi networks today use NAT and we would need to set up port forwarding and other things. So for this tutorial we will use this more inefficient but easier version: if you want to actually deploy a Telegram server be sure to change the method. More on this [here](https://core.telegram.org/bots/api#setwebhook) and [here](https://core.telegram.org/bots/webhooks), while for port forwarding [here](https://portforward.com/)
+
 ### The method getUpdates
 By using `getUpdates` as the *METHOD_NAME*, we can ask the server about the recent updates. They usually remain up to 24 hours, but we can delete them sooner by using the *offset* param. Every new update has an incremental _update\_id_ that we can use in the request: for example, using method GET and the query params, `https://api.telegram.org/bot<token>/getUpdates?offset={update_id}`. With this, we are going to get only the updates that have id equal or greater than it, and the previous ones are going to be deleted.
 
 The response object is a JSON with a defined schema: you can find the full definition [here](https://core.telegram.org/bots/api#message), but in _classes.py_ you will find the schemas ready to use for your python file. This particular method is an array of *Update*, each one with an id and a *Message* containing the *text*, the *chat* and *from* whom the message came.
 
-So what we want to do with this method is an infinite loop where each time we ask the url with the offset, parse the request and then update a counter variable, so that each time we request only the new messages. Of course, for performance it is advised to use a sleep at the end of the cycle, to avoid thousand of useless requests per seconds (at least in our little example). We will see later how to receive the data only when it's ready with web hooks.
+So what we want to do with this method is an infinite loop where each time we ask the url with the offset, parse the request and then update a counter variable, so that each time we request only the new messages. Of course, for performance it is advised to use a sleep at the end of the cycle, to avoid thousand of useless requests per seconds (at least in our little example).
 
 You can see an example of such program in _getUpdates\_bot.py_, where it is also shown ho to send back simple messages
 
