@@ -1,29 +1,8 @@
-# Create your Bot
-Go on Telegram and chat with [@BotFather](https://t.me/BotFather)
+from dotenv import load_dotenv
+import os
+load_dotenv()
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 
-Follow his instructions and create a new Bot. 
-
-Duplicate the _.env.example_ file and rename it as _.env_. Save the token inside this file as the *BOT_TOKEN* variable
-
-> The token is used to respond to the user requests. Keep it secret 🤫
-
-> To use the _.env_ file inside a python program, install it with `pip install python-dotenv`. Then, inside the program, write at the start: 
-> ```
->from dotenv import load_dotenv
->import os
->load_dotenv()
->BOT_TOKEN = os.getenv("BOT_TOKEN")
->```
->The token will be available in the *BOT_TOKEN* variable
-
-# Create the Bot Server
-
-## The easy way: python-telegram-bot
-
-We could use an easy-to-use python library to create our server. To install it, use `pip install python-telegram-bot`.
-
-After that, here is a simple server:
-```
 from telegram.ext import Updater, CommandHandler
 
 #function called for the start command
@@ -64,5 +43,3 @@ def main():
 
 if __name__ == '__main__':
   main()
-```
-The problem with this library is that we aren't using any Telegram API, so feel free to use this code just to test that our Bot is ready.
