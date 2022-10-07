@@ -33,12 +33,16 @@ class Message(TypedDict(
   #  the text sent
   text: str
 
-class Result(TypedDict):
+class Update(TypedDict):
   #  id for the new update
   update_id: int
   message: Message
 
 # the complete response object
-class Response(TypedDict):
+class GetUpdatesResponse(TypedDict):
   ok: bool
-  result: List[Result]
+  result: List[Update]
+
+class SendMessageResponse(TypedDict):
+  ok: bool
+  result: Message
