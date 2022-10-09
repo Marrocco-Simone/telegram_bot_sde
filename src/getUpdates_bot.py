@@ -10,7 +10,6 @@ import requests
 
 telegram_url = 'https://api.telegram.org/bot'+BOT_TOKEN
 
-# pass the returned object of requests.get r as r.json()
 def parse_response(update: Update):
   sender = update['message']['chat']['username']
   message = update['message']['text']
