@@ -18,9 +18,11 @@ mapbox_url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'
 def execute_command(chat_id: str, sender: str, command: str, msg_args: str):  
   msg = 'This command is not currently supported'
 
-  if command == 'weather':
+  if len(msg_args) == 0:
+    msg = 'Add some arguments'
+  elif command == 'weather':
     r = requests.get(weatherstack_url, params={
-      'query': '46.07,11.13',
+      'query': msg_args,
       'access_key': WEATHERSTACK_TOKEN
     })
     weather_obj: WeatherStackResponse = r.json()
@@ -29,8 +31,8 @@ def execute_command(chat_id: str, sender: str, command: str, msg_args: str):
       str(weather_obj['current']['temperature']) + \
       ', it feels like ' + str(weather_obj['current']['feelslike']) + \
       ' and with precipitations ' + str(weather_obj['current']['precip'])
-  if command == 'geolocate':
-    r = requests.get(mapbox_url + 'Trento' + '.json', params={
+  elif command == 'geolocate':
+    r = requests.get(mapbox_url + msg_args + '.json', params={
       'limit': '10',
       'access_token': MAPBOX_TOKEN
     })
@@ -39,8 +41,8 @@ def execute_command(chat_id: str, sender: str, command: str, msg_args: str):
     for feature in geolocate_obj['features']:
       msg = msg + \
         str(feature['place_name']) + ': ' + \
-        str(feature['center'][0]) + ', ' + \
-        str(feature['center'][1]) + '\n\n'
+        str(feature['center'][1]) + ', ' + \
+        str(feature['center'][0]) + '\n\n'
 
   requests.post(telegram_url+'/sendMessage', json={'chat_id': chat_id, 'text': msg})
 
