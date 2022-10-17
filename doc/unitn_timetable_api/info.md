@@ -7,6 +7,8 @@ For example, if you want to download "Fundamental interactions" class schedule, 
 
 `https://easyacademy.unitn.it/AgendaStudentiUnitn/combo.php?sw=ec_&aa=2020&page=corsi`
 
+> `sw=ec_` should mean _starts\_with_ = _ec\__, where _ec_ means _elective course_
+
 You can choose between:
 - Degree `page=corsi`
 - Lecturer `page=docenti`
