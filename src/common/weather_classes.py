@@ -41,6 +41,12 @@ class WeatherStackResponse(TypedDict):
   location: WeatherStackLocation  
   current: WeatherStackCurrent
 
+class WeatherStackOutput(TypedDict):
+  name: str
+  temperature: int
+  feelslike: int
+  precip: int
+
 class MapBoxFeatures(TypedDict):
   id: str
   type: str
@@ -50,12 +56,18 @@ class MapBoxFeatures(TypedDict):
   text: str
   place_name: str
   bbox: List[float]
+  # 0 is longitude, 1 is latitude
   center: List[float]
   geometry: Any
   context: Any
 
 class MapBoxResponse(TypedDict):
-    type: str
-    query: List[str]
-    features: List[MapBoxFeatures]
-    attribution: str
+  type: str
+  query: List[str]
+  features: List[MapBoxFeatures]
+  attribution: str
+
+class MapBoxOutput(TypedDict):
+  name: str
+  latitude: float
+  longitude: float
