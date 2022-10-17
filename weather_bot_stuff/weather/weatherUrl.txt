@@ -1,0 +1,1 @@
+http://api.weatherstack.com/current
