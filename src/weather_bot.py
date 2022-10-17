@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 
 from common.classes import GetUpdatesResponse, SendMessageResponse, Update
+from common.weather_classes import MapBoxResponse, WeatherStackResponse
 load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 WEATHERSTACK_TOKEN = os.getenv('WEATHERSTACK_TOKEN')
@@ -14,10 +15,7 @@ telegram_url = 'https://api.telegram.org/bot'+BOT_TOKEN
 weatherstack_url = 'http://api.weatherstack.com/current'
 mapbox_url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'
 
-stored_data: str = ''
-
 def execute_command(chat_id: str, sender: str, command: str, msg_args: str):  
-  global stored_data
   msg = 'This command is not currently supported'
 
   if command == 'weather':
@@ -25,13 +23,24 @@ def execute_command(chat_id: str, sender: str, command: str, msg_args: str):
       'query': '46.07,11.13',
       'access_key': WEATHERSTACK_TOKEN
     })
-    msg = r.json()
+    weather_obj: WeatherStackResponse = r.json()
+    msg = \
+      str(weather_obj['location']['name']) + ': ' + \
+      str(weather_obj['current']['temperature']) + \
+      ', it feels like ' + str(weather_obj['current']['feelslike']) + \
+      ' and with precipitations ' + str(weather_obj['current']['precip'])
   if command == 'geolocate':
     r = requests.get(mapbox_url + 'Trento' + '.json', params={
-      'limit': '1',
+      'limit': '10',
       'access_token': MAPBOX_TOKEN
     })
-    msg = r.json()
+    geolocate_obj: MapBoxResponse = r.json()
+    msg = ''
+    for feature in geolocate_obj['features']:
+      msg = msg + \
+        str(feature['place_name']) + ': ' + \
+        str(feature['center'][0]) + ', ' + \
+        str(feature['center'][1]) + '\n\n'
 
   requests.post(telegram_url+'/sendMessage', json={'chat_id': chat_id, 'text': msg})
 
