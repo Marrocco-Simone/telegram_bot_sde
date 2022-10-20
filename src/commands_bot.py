@@ -55,6 +55,7 @@ def parse_response(update: Update):
     msg_args = message.replace('/'+command, '', 1)
     execute_command(chat_id, sender, command, msg_args)
 
+print('Server online. Waiting...\n')
 last_update = 0
 while True:
   r = requests.get(telegram_url+'/getUpdates', params={'offset': last_update})
