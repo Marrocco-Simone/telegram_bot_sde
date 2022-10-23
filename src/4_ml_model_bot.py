@@ -1,6 +1,7 @@
 from time import sleep, time
 import requests
 from common.classes.classes import GetUpdatesResponse, Update
+from common.methods.parseUpdate import parseUpdate
 from common.classes.core_ac_classes import CoreACSearchResponse
 
 # retrieve tokens from .env file
@@ -17,18 +18,14 @@ core_ac_url = 'https://api.core.ac.uk/v3/search/works/'
 huggin_face_url = 'https://api-inference.huggingface.co/models/google/bigbird-pegasus-large-pubmed'
 
 def parse_response(update: Update):
-  chat_id = update['message']['chat']['id']
-  sender = update['message']['chat']['username']
-  message = update['message']['text']
-  log = f"{sender} says: {message}"
-  print(log)
+  update_info = parseUpdate(update)
 
   start = time()
 
   r = requests.get(
     core_ac_url, 
     params={
-      'q': message,
+      'q': update_info["message"],
       'limit': 5
     }, 
     headers = {"Authorization": f"Bearer {CORE_AC_TOKEN}"}
@@ -42,7 +39,7 @@ def parse_response(update: Update):
   except:
     print(f'crashed core ac api. Reason: {core_ac_response["message"]}')
     return_msg = f'Sorry, request failed at CoreAc API. Reason: {core_ac_response["message"]}. Retry'
-    requests.post(telegram_url+'/sendMessage', json={'chat_id': chat_id, 'text': return_msg})
+    requests.post(telegram_url+'/sendMessage', json={'chat_id': update_info["chat_id"], 'text': return_msg})
     return
   print(f'CoreAc responded with {len(core_ac_response["results"])} results, out of {core_ac_response["totalHits"]}')
   print(f"lenght of the abstract composition: {len(abstracts_text)}")
@@ -57,11 +54,11 @@ def parse_response(update: Update):
 
   try:
     return_msg = hugging_face_obj[0]['summary_text']
-    requests.post(telegram_url+'/sendMessage', json={'chat_id': chat_id, 'text': return_msg})
+    requests.post(telegram_url+'/sendMessage', json={'chat_id': update_info["chat_id"], 'text': return_msg})
   except:
     print(f"crashed hugging face api. Reason: {hugging_face_obj['error']}")
     return_msg = f"Sorry, request failed at HuggingFace API. Reason: {hugging_face_obj['error']}. Retry"
-    requests.post(telegram_url+'/sendMessage', json={'chat_id': chat_id, 'text': return_msg})
+    requests.post(telegram_url+'/sendMessage', json={'chat_id': update_info["chat_id"], 'text': return_msg})
     return
 
   end = time()

@@ -1,8 +1,9 @@
 from time import sleep
-from typing import List
 import requests
 from common.classes.classes import GetUpdatesResponse, Update
+from common.methods.parseUpdate import parseUpdate
 from common.classes.weather_classes import MapBoxOutput, MapBoxResponse, WeatherStackOutput, WeatherStackResponse
+from typing import List
 
 # retrieve tokens from .env file
 from dotenv import load_dotenv
@@ -87,18 +88,14 @@ def execute_command(chat_id: str, sender: str, command: str, msg_args: str):
   requests.post(telegram_url+'/sendMessage', json={'chat_id': chat_id, 'text': msg})
 
 def parse_response(update: Update):
-  chat_id = update['message']['chat']['id']
-  sender = update['message']['chat']['username']
-  message = update['message']['text']
-  log = f"{sender} says: {message}"
-  print(log)
+  update_info = parseUpdate(update)
 
-  if message.startswith('/'):
-    command = message.split(' ')[0].lstrip('/')
-    msg_args = message.replace('/'+command, '', 1)
-    execute_command(chat_id, sender, command, msg_args)
+  if update_info["message"].startswith('/'):
+    command = update_info["message"].split(' ')[0].lstrip('/')
+    msg_args = update_info["message"].replace('/'+command, '', 1)
+    execute_command(update_info["chat_id"], update_info["sender"], command, msg_args)
   else:
-    search_city_weather(chat_id, message)
+    search_city_weather(update_info["chat_id"], update_info["message"])
 
 print('Server online. Waiting...\n')
 # id of the last parsed message

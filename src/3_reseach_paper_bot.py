@@ -1,6 +1,7 @@
 from time import sleep
 import requests
 from common.classes.classes import GetUpdatesResponse, Update
+from common.methods.parseUpdate import parseUpdate
 from common.classes.core_ac_classes import CoreACSearchResponse
 
 # retrieve tokens from .env file
@@ -15,16 +16,12 @@ telegram_url = 'https://api.telegram.org/bot'+BOT_TOKEN
 core_ac_url = 'https://api.core.ac.uk/v3/search/works/'
 
 def parse_response(update: Update):
-  chat_id = update['message']['chat']['id']
-  sender = update['message']['chat']['username']
-  message = update['message']['text']
-  log = f"{sender} says: {message}"
-  print(log)
+  update_info = parseUpdate(update)
 
   r = requests.get(
     core_ac_url, 
     params={
-      'q': message,
+      'q': update_info["message"],
       'limit': 30
     }, 
     headers = {"Authorization": "Bearer "+CORE_AC_TOKEN}
@@ -33,7 +30,7 @@ def parse_response(update: Update):
 
   for s in core_ac_response['results']:
     return_msg = s['abstract']
-    requests.post(telegram_url+'/sendMessage', json={'chat_id': chat_id, 'text': return_msg})
+    requests.post(telegram_url+'/sendMessage', json={'chat_id': update_info["chat_id"], 'text': return_msg})
 
 print('Server online. Waiting...\n')
 # id of the last parsed message

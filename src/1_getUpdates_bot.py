@@ -1,10 +1,12 @@
 from time import sleep
 import requests
 from common.classes.classes import GetUpdatesResponse, SendMessageResponse, Update
+from common.methods.parseUpdate import parseUpdate
 
 # retrieve tokens from .env file
 from dotenv import load_dotenv
 import os
+
 load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 
@@ -12,14 +14,10 @@ BOT_TOKEN = os.getenv('BOT_TOKEN')
 telegram_url = 'https://api.telegram.org/bot'+BOT_TOKEN
 
 def parse_response(update: Update):
-  chat_id = update['message']['chat']['id']
-  sender = update['message']['chat']['username']
-  message = update['message']['text']
-  log = f"{sender} says: {message}"
-  print(log)
+  update_info = parseUpdate(update)
 
-  return_msg = 'Hi '+sender+', you told me: '+message
-  r = requests.post(telegram_url+'/sendMessage', json={'chat_id': chat_id, 'text': return_msg})
+  return_msg = f'Hi {update_info["sender"]}, you told me: {update_info["message"]}'
+  r = requests.post(telegram_url+'/sendMessage', json={'chat_id': update_info['chat_id'], 'text': return_msg})
   
   response: SendMessageResponse = r.json()
   msg_sent = response['result']['text']
