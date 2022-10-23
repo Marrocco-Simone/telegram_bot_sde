@@ -1,8 +1,8 @@
 from time import sleep
 from typing import List
 import requests
-from common.classes import GetUpdatesResponse, SendMessageResponse, Update
-from common.weather_classes import MapBoxOutput, MapBoxResponse, WeatherStackOutput, WeatherStackResponse
+from common.classes.classes import GetUpdatesResponse, SendMessageResponse, Update
+from common.classes.weather_classes import MapBoxOutput, MapBoxResponse, WeatherStackOutput, WeatherStackResponse
 
 # retrieve tokens from .env file
 from dotenv import load_dotenv

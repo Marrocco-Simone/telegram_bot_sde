@@ -1,7 +1,7 @@
 from time import sleep, time
 import requests
-from common.classes import GetUpdatesResponse, SendMessageResponse, Update
-from common.core_ac_classes import CoreACSearchResponse
+from common.classes.classes import GetUpdatesResponse, SendMessageResponse, Update
+from common.classes.core_ac_classes import CoreACSearchResponse
 
 # retrieve tokens from .env file
 from dotenv import load_dotenv

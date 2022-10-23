@@ -1,6 +1,6 @@
 from time import sleep
 import requests
-from common.classes import GetUpdatesResponse, SendMessageResponse, Update
+from common.classes.classes import GetUpdatesResponse, SendMessageResponse, Update
 
 # retrieve tokens from .env file
 from dotenv import load_dotenv
