@@ -37,10 +37,10 @@ class CoreACWork(TypedDict):
   last_update: dt.datetime
 
 class CoreACSearchResponse(TypedDict):
-  total_hits: int
+  totalHits: int
   limit: int
   offset: int
-  scroll_id: str
+  scrollId: str
   results: List[CoreACWork]
   tooks: List[str]
-  es_took: int
+  esTook: int
