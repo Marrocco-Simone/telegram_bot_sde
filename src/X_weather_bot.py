@@ -1,7 +1,6 @@
-from time import sleep
 import requests
-from common.classes.classes import GetUpdatesResponse, Update
-from common.methods.parseUpdate import parseUpdate
+from common.methods.parseUpdate import UpdateInfo
+from common.methods.startServer import startServerPolling
 from common.classes.weather_classes import MapBoxOutput, MapBoxResponse, WeatherStackOutput, WeatherStackResponse
 from typing import List
 
@@ -105,9 +104,7 @@ def execute_command(chat_id: str, sender: str, command: str, msg_args: str):
     }
   )
 
-def parse_response(update: Update):
-  update_info = parseUpdate(update)
-
+def parse_response(update_info: UpdateInfo):
   if update_info["message"].startswith('/'):
     command = update_info["message"].split(' ')[0].lstrip('/')
     msg_args = update_info["message"].replace('/'+command, '', 1)
@@ -115,21 +112,4 @@ def parse_response(update: Update):
   else:
     search_city_weather(update_info["chat_id"], update_info["message"])
 
-print('Server online. Waiting...\n')
-# id of the last parsed message
-last_update = 0
-while True:
-  r = requests.get(
-    telegram_url+'/getUpdates', 
-    params={
-      'offset': last_update
-    }
-  )
-  response: GetUpdatesResponse = r.json()
-
-  if len(response['result']) > 0:
-    for update in response['result']:
-      parse_response(update)
-      last_update = update['update_id']+1
-
-  sleep(1)
+startServerPolling(parse_response)

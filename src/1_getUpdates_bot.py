@@ -1,7 +1,7 @@
-from time import sleep
 import requests
-from common.classes.classes import GetUpdatesResponse, SendMessageResponse, Update
-from common.methods.parseUpdate import parseUpdate
+from common.classes.classes import  SendMessageResponse
+from common.methods.parseUpdate import UpdateInfo
+from common.methods.startServer import startServerPolling
 
 # retrieve tokens from .env file
 from dotenv import load_dotenv
@@ -13,9 +13,7 @@ BOT_TOKEN = os.getenv('BOT_TOKEN')
 # urls
 telegram_url = 'https://api.telegram.org/bot'+BOT_TOKEN
 
-def parse_response(update: Update):
-  update_info = parseUpdate(update)
-
+def parse_response(update_info: UpdateInfo):
   return_msg = f'Hi {update_info["sender"]}, you told me: {update_info["message"]}'
   r = requests.post(
     telegram_url+'/sendMessage', 
@@ -30,21 +28,4 @@ def parse_response(update: Update):
   recipient = response['result']['chat']['username']
   print('you sent back to '+recipient+': {'+msg_sent+'}')
 
-print('Server online. Waiting...\n')
-# id of the last parsed message
-last_update = 0
-while True:
-  r = requests.get(
-    telegram_url+'/getUpdates', 
-    params={
-      'offset': last_update
-    }
-  )
-  response: GetUpdatesResponse = r.json()
-
-  if len(response['result']) > 0:
-    for update in response['result']:
-      parse_response(update)
-      last_update = update['update_id']+1
-
-  sleep(1)
+startServerPolling(parse_response)

@@ -1,7 +1,7 @@
-from time import sleep, time
+from time import time
 import requests
-from common.classes.classes import GetUpdatesResponse, Update
-from common.methods.parseUpdate import parseUpdate
+from common.methods.parseUpdate import UpdateInfo
+from common.methods.startServer import startServerPolling
 from common.classes.core_ac_classes import CoreACSearchResponse
 
 # retrieve tokens from .env file
@@ -17,9 +17,7 @@ telegram_url = 'https://api.telegram.org/bot'+BOT_TOKEN
 core_ac_url = 'https://api.core.ac.uk/v3/search/works/'
 huggin_face_url = 'https://api-inference.huggingface.co/models/google/bigbird-pegasus-large-pubmed'
 
-def parse_response(update: Update):
-  update_info = parseUpdate(update)
-
+def parse_response(update_info: UpdateInfo):
   start = time()
 
   r = requests.get(
@@ -85,21 +83,4 @@ def parse_response(update: Update):
   end = time()
   print(f"request served in {end-start} s")
 
-print('Server online. Waiting...\n')
-# id of the last parsed message
-last_update = 0
-while True:
-  r = requests.get(
-    telegram_url+'/getUpdates', 
-    params={
-      'offset': last_update
-    }
-  )
-  response: GetUpdatesResponse = r.json()
-
-  if len(response['result']) > 0:
-    for update in response['result']:
-      parse_response(update)
-      last_update = update['update_id']+1
-
-  sleep(1)
+startServerPolling(parse_response)
