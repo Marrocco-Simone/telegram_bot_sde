@@ -1,6 +1,6 @@
 from time import sleep, time
 import requests
-from common.classes.classes import GetUpdatesResponse, SendMessageResponse, Update
+from common.classes.classes import GetUpdatesResponse, Update
 from common.classes.core_ac_classes import CoreACSearchResponse
 
 # retrieve tokens from .env file
