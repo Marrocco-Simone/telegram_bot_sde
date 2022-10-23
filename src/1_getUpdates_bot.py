@@ -23,6 +23,7 @@ def parse_response(update_info: UpdateInfo):
     }
   )
   
+  # analyze the return object from the sendMessage telegram method
   response: SendMessageResponse = r.json()
   msg_sent = response['result']['text']
   recipient = response['result']['chat']['username']
