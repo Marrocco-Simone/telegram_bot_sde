@@ -19,10 +19,13 @@ weatherstack_url = 'http://api.weatherstack.com/current'
 mapbox_url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'
 
 def call_weather_api(args) -> WeatherStackOutput:
-  r = requests.get(weatherstack_url, params={
-    'query': args,
-    'access_key': WEATHERSTACK_TOKEN
-  })
+  r = requests.get(
+    weatherstack_url, 
+    params={
+      'query': args,
+      'access_key': WEATHERSTACK_TOKEN
+    }
+  )
   weather_obj: WeatherStackResponse = r.json()
   weather_output: WeatherStackOutput = {
     'name': weather_obj['location']['name'],
@@ -40,10 +43,13 @@ def print_weather_output(weather_output: WeatherStackOutput):
     ' and with precipitations ' + str(weather_output['precip'])
 
 def call_geolocate_api(args: str) -> List[MapBoxOutput]:
-  r = requests.get(mapbox_url + args + '.json', params={
-    'limit': '10',
-    'access_token': MAPBOX_TOKEN
-  })
+  r = requests.get(
+    mapbox_url + args + '.json', 
+    params={
+      'limit': '10',
+      'access_token': MAPBOX_TOKEN
+    }
+  )
   geolocate_obj: MapBoxResponse = r.json()
   geolocate_output: List[MapBoxOutput] = []
   for feature in geolocate_obj['features']:
@@ -71,7 +77,13 @@ def search_city_weather(chat_id: str, message: str):
   weather_output = call_weather_api(coordinates)
   msg = print_weather_output(weather_output)
 
-  requests.post(telegram_url+'/sendMessage', json={'chat_id': chat_id, 'text': msg})
+  requests.post(
+    telegram_url+'/sendMessage', 
+    json={
+      'chat_id': chat_id, 
+      'text': msg
+    }
+  )
 
 def execute_command(chat_id: str, sender: str, command: str, msg_args: str):  
   msg = 'This command is not currently supported'
@@ -85,7 +97,13 @@ def execute_command(chat_id: str, sender: str, command: str, msg_args: str):
     geolocate_output = call_geolocate_api(msg_args)
     msg = print_geolocate_output(geolocate_output)
 
-  requests.post(telegram_url+'/sendMessage', json={'chat_id': chat_id, 'text': msg})
+  requests.post(
+    telegram_url+'/sendMessage', 
+    json={
+      'chat_id': chat_id, 
+      'text': msg
+    }
+  )
 
 def parse_response(update: Update):
   update_info = parseUpdate(update)
@@ -101,7 +119,12 @@ print('Server online. Waiting...\n')
 # id of the last parsed message
 last_update = 0
 while True:
-  r = requests.get(telegram_url+'/getUpdates', params={'offset': last_update})
+  r = requests.get(
+    telegram_url+'/getUpdates', 
+    params={
+      'offset': last_update
+    }
+  )
   response: GetUpdatesResponse = r.json()
 
   if len(response['result']) > 0:

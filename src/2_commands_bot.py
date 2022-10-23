@@ -15,7 +15,12 @@ telegram_url = 'https://api.telegram.org/bot'+BOT_TOKEN
 stored_data: str = ''
 
 def send_dice(chat_id: str):
-  requests.post(telegram_url+'/sendDice', json={'chat_id': chat_id})
+  requests.post(
+    telegram_url+'/sendDice', 
+    json={
+      'chat_id': chat_id
+    }
+  )
 
 def execute_command(chat_id: str, sender: str, command: str, msg_args: str):  
   global stored_data
@@ -38,11 +43,13 @@ def execute_command(chat_id: str, sender: str, command: str, msg_args: str):
     stored_data = msg_args
     msg = 'You have stored: ' + stored_data
 
-  r = requests.post(telegram_url+'/sendMessage', json={'chat_id': chat_id, 'text': msg})
-  # response: SendMessageResponse = r.json()
-  # msg_sent = response['result']['text']
-  # recipient = response['result']['chat']['username']
-  # print('you sent back to '+recipient+': {'+msg_sent+'}')
+  r = requests.post(
+    telegram_url+'/sendMessage', 
+    json={
+      'chat_id': chat_id, 
+      'text': msg
+    }
+  )
 
 def parse_response(update: Update):
   update_info = parseUpdate(update)
@@ -56,7 +63,12 @@ print('Server online. Waiting...\n')
 # id of the last parsed message
 last_update = 0
 while True:
-  r = requests.get(telegram_url+'/getUpdates', params={'offset': last_update})
+  r = requests.get(
+    telegram_url+'/getUpdates', 
+    params={
+      'offset': last_update
+    }
+  )
   response: GetUpdatesResponse = r.json()
 
   if len(response['result']) > 0:

@@ -30,13 +30,24 @@ def parse_response(update: Update):
 
   for s in core_ac_response['results']:
     return_msg = s['abstract']
-    requests.post(telegram_url+'/sendMessage', json={'chat_id': update_info["chat_id"], 'text': return_msg})
+    requests.post(
+      telegram_url+'/sendMessage', 
+      json={
+        'chat_id': update_info["chat_id"], 
+        'text': return_msg
+      }
+    )
 
 print('Server online. Waiting...\n')
 # id of the last parsed message
 last_update = 0
 while True:
-  r = requests.get(telegram_url+'/getUpdates', params={'offset': last_update})
+  r = requests.get(
+    telegram_url+'/getUpdates', 
+    params={
+      'offset': last_update
+    }
+  )
   response: GetUpdatesResponse = r.json()
 
   if len(response['result']) > 0:

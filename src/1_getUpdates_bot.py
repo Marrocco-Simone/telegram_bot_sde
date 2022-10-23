@@ -17,7 +17,13 @@ def parse_response(update: Update):
   update_info = parseUpdate(update)
 
   return_msg = f'Hi {update_info["sender"]}, you told me: {update_info["message"]}'
-  r = requests.post(telegram_url+'/sendMessage', json={'chat_id': update_info['chat_id'], 'text': return_msg})
+  r = requests.post(
+    telegram_url+'/sendMessage', 
+    json={
+      'chat_id': update_info['chat_id'], 
+      'text': return_msg
+    }
+  )
   
   response: SendMessageResponse = r.json()
   msg_sent = response['result']['text']
@@ -28,7 +34,12 @@ print('Server online. Waiting...\n')
 # id of the last parsed message
 last_update = 0
 while True:
-  r = requests.get(telegram_url+'/getUpdates', params={'offset': last_update})
+  r = requests.get(
+    telegram_url+'/getUpdates', 
+    params={
+      'offset': last_update
+    }
+  )
   response: GetUpdatesResponse = r.json()
 
   if len(response['result']) > 0:
