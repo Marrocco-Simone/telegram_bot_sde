@@ -102,6 +102,7 @@ def parse_response(update: Update):
     search_city_weather(chat_id, message)
 
 print('Server online. Waiting...\n')
+# id of the last parsed message
 last_update = 0
 while True:
   r = requests.get(telegram_url+'/getUpdates', params={'offset': last_update})

@@ -37,6 +37,7 @@ def parse_response(update: Update):
     requests.post(telegram_url+'/sendMessage', json={'chat_id': chat_id, 'text': return_msg})
 
 print('Server online. Waiting...\n')
+# id of the last parsed message
 last_update = 0
 while True:
   r = requests.get(telegram_url+'/getUpdates', params={'offset': last_update})
