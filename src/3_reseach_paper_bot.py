@@ -1,49 +1,30 @@
-from time import sleep
+import requests
+from common.methods.getResearchPapers import getResearchPapers
+from common.methods.parseUpdate import UpdateInfo
+from common.methods.startServer import startServerPolling
+
+# retrieve tokens from .env file
 from dotenv import load_dotenv
 import os
-
-from common.classes import GetUpdatesResponse, SendMessageResponse, Update
-from common.core_ac_classes import CoreACSearchResponse
 load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 CORE_AC_TOKEN = os.getenv('CORE_AC_TOKEN')
 
-import requests
-
+# urls
 telegram_url = 'https://api.telegram.org/bot'+BOT_TOKEN
-core_ac_url = 'https://api.core.ac.uk/v3/search/works/'
 
-def parse_response(update: Update):
-  sender = update['message']['chat']['username']
-  message = update['message']['text']
-  chat_id = update['message']['chat']['id']
+def parse_response(update_info: UpdateInfo):
+  core_ac_response = getResearchPapers(update_info, CORE_AC_TOKEN)
 
-  log = sender+' says: '+message
-  print(log)
-
-  r = requests.get(
-    core_ac_url, 
-    params={
-      'q': message,
-      'limit': 30
-    }, 
-    headers = {"Authorization": "Bearer "+CORE_AC_TOKEN}
-  )
-  core_ac_response: CoreACSearchResponse = r.json()
-
+  # send a message for each abstract received
   for s in core_ac_response['results']:
     return_msg = s['abstract']
-    requests.post(telegram_url+'/sendMessage', json={'chat_id': chat_id, 'text': return_msg})
+    requests.post(
+      telegram_url+'/sendMessage', 
+      json={
+        'chat_id': update_info["chat_id"], 
+        'text': return_msg
+      }
+    )
 
-print('Server online. Waiting...\n')
-last_update = 0
-while True:
-  r = requests.get(telegram_url+'/getUpdates', params={'offset': last_update})
-  response: GetUpdatesResponse = r.json()
-
-  if len(response['result']) > 0:
-    for update in response['result']:
-      parse_response(update)
-      last_update = update['update_id']+1
-
-  sleep(1)
+startServerPolling(parse_response)
