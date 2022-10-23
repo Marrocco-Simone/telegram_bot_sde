@@ -23,14 +23,14 @@ def send_dice(chat_id: str):
 
 def execute_command(chat_id: str, sender: str, command: str, msg_args: str):  
   global stored_data
-  msg = 'This command is not currently supported'
+  return_msg = 'This command is not currently supported'
 
   if command == 'dice':
     send_dice(chat_id)
     return
 
   if command == 'start' or command == 'help':
-    msg = '''
+    return_msg = '''
 Welcome to our bot
 Possible commands:
 /start or /help: info about the bot
@@ -40,17 +40,17 @@ Possible commands:
 '''
 
   if command == 'get_stored':
-    msg = 'You have stored: ' + stored_data
+    return_msg = 'You have stored: ' + stored_data
 
   if command == 'change_stored':
     stored_data = msg_args
-    msg = 'You have stored: ' + stored_data
+    return_msg = 'You have stored: ' + stored_data
 
   requests.post(
     telegram_url+'/sendMessage', 
     json={
       'chat_id': chat_id, 
-      'text': msg
+      'text': return_msg
     }
   )
 
