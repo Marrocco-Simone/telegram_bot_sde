@@ -1,16 +1,15 @@
 from time import sleep, time
-from dotenv import load_dotenv
-import os
-import json
-
+import requests
 from common.classes import GetUpdatesResponse, SendMessageResponse, Update
 from common.core_ac_classes import CoreACSearchResponse
+
+# retrieve tokens from .env file
+from dotenv import load_dotenv
+import os
 load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 CORE_AC_TOKEN = os.getenv('CORE_AC_TOKEN')
 HUGGING_FACE_TOKEN = os.getenv('HUGGING_FACE_TOKEN')
-
-import requests
 
 telegram_url = 'https://api.telegram.org/bot'+BOT_TOKEN
 core_ac_url = 'https://api.core.ac.uk/v3/search/works/'

@@ -1,16 +1,16 @@
 from time import sleep
 from typing import List
-from dotenv import load_dotenv
-import os
-
+import requests
 from common.classes import GetUpdatesResponse, SendMessageResponse, Update
 from common.weather_classes import MapBoxOutput, MapBoxResponse, WeatherStackOutput, WeatherStackResponse
+
+# retrieve tokens from .env file
+from dotenv import load_dotenv
+import os
 load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 WEATHERSTACK_TOKEN = os.getenv('WEATHERSTACK_TOKEN')
 MAPBOX_TOKEN = os.getenv('MAPBOX_TOKEN')
-
-import requests
 
 telegram_url = 'https://api.telegram.org/bot'+BOT_TOKEN
 weatherstack_url = 'http://api.weatherstack.com/current'

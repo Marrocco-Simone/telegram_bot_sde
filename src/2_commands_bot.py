@@ -1,12 +1,12 @@
 from time import sleep
+import requests
+from common.classes import GetUpdatesResponse, SendMessageResponse, Update
+
+# retrieve tokens from .env file
 from dotenv import load_dotenv
 import os
-
-from common.classes import GetUpdatesResponse, SendMessageResponse, Update
 load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
-
-import requests
 
 telegram_url = 'https://api.telegram.org/bot'+BOT_TOKEN
 
