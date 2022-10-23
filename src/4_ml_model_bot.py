@@ -11,6 +11,7 @@ BOT_TOKEN = os.getenv('BOT_TOKEN')
 CORE_AC_TOKEN = os.getenv('CORE_AC_TOKEN')
 HUGGING_FACE_TOKEN = os.getenv('HUGGING_FACE_TOKEN')
 
+# urls
 telegram_url = 'https://api.telegram.org/bot'+BOT_TOKEN
 core_ac_url = 'https://api.core.ac.uk/v3/search/works/'
 huggin_face_url = 'https://api-inference.huggingface.co/models/google/bigbird-pegasus-large-pubmed'

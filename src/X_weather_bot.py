@@ -12,6 +12,7 @@ BOT_TOKEN = os.getenv('BOT_TOKEN')
 WEATHERSTACK_TOKEN = os.getenv('WEATHERSTACK_TOKEN')
 MAPBOX_TOKEN = os.getenv('MAPBOX_TOKEN')
 
+# urls
 telegram_url = 'https://api.telegram.org/bot'+BOT_TOKEN
 weatherstack_url = 'http://api.weatherstack.com/current'
 mapbox_url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'

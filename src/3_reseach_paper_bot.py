@@ -10,6 +10,7 @@ load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 CORE_AC_TOKEN = os.getenv('CORE_AC_TOKEN')
 
+# urls
 telegram_url = 'https://api.telegram.org/bot'+BOT_TOKEN
 core_ac_url = 'https://api.core.ac.uk/v3/search/works/'
 
