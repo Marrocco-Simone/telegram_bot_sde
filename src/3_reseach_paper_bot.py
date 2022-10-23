@@ -15,11 +15,10 @@ telegram_url = 'https://api.telegram.org/bot'+BOT_TOKEN
 core_ac_url = 'https://api.core.ac.uk/v3/search/works/'
 
 def parse_response(update: Update):
+  chat_id = update['message']['chat']['id']
   sender = update['message']['chat']['username']
   message = update['message']['text']
-  chat_id = update['message']['chat']['id']
-
-  log = sender+' says: '+message
+  log = f"{sender} says: {message}"
   print(log)
 
   r = requests.get(

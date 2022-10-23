@@ -17,13 +17,13 @@ core_ac_url = 'https://api.core.ac.uk/v3/search/works/'
 huggin_face_url = 'https://api-inference.huggingface.co/models/google/bigbird-pegasus-large-pubmed'
 
 def parse_response(update: Update):
-  start = time()
+  chat_id = update['message']['chat']['id']
   sender = update['message']['chat']['username']
   message = update['message']['text']
-  chat_id = update['message']['chat']['id']
-
   log = f"{sender} says: {message}"
   print(log)
+
+  start = time()
 
   r = requests.get(
     core_ac_url, 

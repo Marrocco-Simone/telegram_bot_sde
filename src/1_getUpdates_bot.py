@@ -12,12 +12,12 @@ BOT_TOKEN = os.getenv('BOT_TOKEN')
 telegram_url = 'https://api.telegram.org/bot'+BOT_TOKEN
 
 def parse_response(update: Update):
+  chat_id = update['message']['chat']['id']
   sender = update['message']['chat']['username']
   message = update['message']['text']
-  log = sender+' says: '+message
+  log = f"{sender} says: {message}"
   print(log)
 
-  chat_id = update['message']['chat']['id']
   return_msg = 'Hi '+sender+', you told me: '+message
   r = requests.post(telegram_url+'/sendMessage', json={'chat_id': chat_id, 'text': return_msg})
   

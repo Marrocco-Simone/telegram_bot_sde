@@ -88,10 +88,9 @@ def execute_command(chat_id: str, sender: str, command: str, msg_args: str):
 
 def parse_response(update: Update):
   chat_id = update['message']['chat']['id']
-
   sender = update['message']['chat']['username']
   message = update['message']['text']
-  log = sender+' says: '+message
+  log = f"{sender} says: {message}"
   print(log)
 
   if message.startswith('/'):
