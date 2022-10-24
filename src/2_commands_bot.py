@@ -1,5 +1,6 @@
 import requests
 from common.methods.parseUpdate import UpdateInfo
+from common.methods.sendTelegramMessage import sendTelegramMessage
 from common.methods.startServer import startServerPolling
 
 # retrieve tokens from .env file
@@ -46,13 +47,7 @@ Possible commands:
     stored_data = msg_args
     return_msg = 'You have stored: ' + stored_data
 
-  requests.post(
-    telegram_url+'/sendMessage', 
-    json={
-      'chat_id': chat_id, 
-      'text': return_msg
-    }
-  )
+  sendTelegramMessage(['chat_id'], return_msg)
 
 def parse_response(update_info: UpdateInfo):
   if update_info["message"].startswith('/'):

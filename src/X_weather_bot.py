@@ -1,5 +1,6 @@
 import requests
 from common.methods.parseUpdate import UpdateInfo
+from common.methods.sendTelegramMessage import sendTelegramMessage
 from common.methods.startServer import startServerPolling
 from common.classes.weather_classes import MapBoxOutput, MapBoxResponse, WeatherStackOutput, WeatherStackResponse
 from typing import List
@@ -74,35 +75,23 @@ def search_city_weather(chat_id: str, message: str):
   geolocate_output = call_geolocate_api(message)
   coordinates = get_coordinates_from_mapbox_output(geolocate_output[0])
   weather_output = call_weather_api(coordinates)
-  msg = print_weather_output(weather_output)
+  return_msg = print_weather_output(weather_output)
 
-  requests.post(
-    telegram_url+'/sendMessage', 
-    json={
-      'chat_id': chat_id, 
-      'text': msg
-    }
-  )
+  sendTelegramMessage(chat_id, return_msg)
 
 def execute_command(chat_id: str, sender: str, command: str, msg_args: str):  
-  msg = 'This command is not currently supported'
+  return_msg = 'This command is not currently supported'
 
   if len(msg_args) == 0:
-    msg = 'Add some arguments'
+    return_msg = 'Add some arguments'
   elif command == 'weather':
     weather_output = call_weather_api(msg_args)
-    msg = print_weather_output(weather_output)
+    return_msg = print_weather_output(weather_output)
   elif command == 'geolocate':
     geolocate_output = call_geolocate_api(msg_args)
-    msg = print_geolocate_output(geolocate_output)
+    return_msg = print_geolocate_output(geolocate_output)
 
-  requests.post(
-    telegram_url+'/sendMessage', 
-    json={
-      'chat_id': chat_id, 
-      'text': msg
-    }
-  )
+  sendTelegramMessage(chat_id, return_msg)
 
 def parse_response(update_info: UpdateInfo):
   if update_info["message"].startswith('/'):
