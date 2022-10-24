@@ -1,5 +1,6 @@
 from time import time
 import requests
+from common.classes.hugging_face_classes import HuggingFaceResponse
 from common.methods.getResearchPapers import getResearchPapers
 from common.methods.parseUpdate import UpdateInfo
 from common.methods.startServer import startServerPolling
@@ -47,7 +48,7 @@ def parse_response(update_info: UpdateInfo):
     }, 
     json=abstracts_text
   )
-  hugging_face_obj = hugging_face_response.json()
+  hugging_face_obj: HuggingFaceResponse = hugging_face_response.json()
   print('HuggingFace responded')
 
   try:
