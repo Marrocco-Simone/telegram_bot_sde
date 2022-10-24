@@ -90,7 +90,7 @@ async function sendTelegramMessage(chat_id: string, return_msg: string) {
 }
 
 async function parse_response(update_info: UpdateInfo) {
-  console.time();
+  console.time('process request');
 
   const core_ac_response = await getResearchPapers(update_info, CORE_AC_TOKEN);
   let abstracts_text = "";
@@ -134,7 +134,7 @@ async function parse_response(update_info: UpdateInfo) {
     return;
   }
 
-  console.timeEnd();
+  console.timeEnd('process request');
 }
 
 startServerPolling(parse_response);
