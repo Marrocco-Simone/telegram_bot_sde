@@ -1,4 +1,4 @@
-type User = {
+export type User = {
   // unique id of the user
   id: number;
   // other data of the user
@@ -9,7 +9,7 @@ type User = {
   language_code: string; // en
 };
 
-type Chat = {
+export type Chat = {
   //  type of conversation: private, group, ...
   type: string;
   //  same fields as USER
@@ -19,7 +19,7 @@ type Chat = {
   username: string;
 };
 
-type Message = {
+export type Message = {
   //  id for the new message
   message_id: number;
   from: User;
@@ -30,24 +30,24 @@ type Message = {
   text: string;
 };
 
-type Update = {
+export type Update = {
   //  id for the new update
   update_id: number;
   message: Message;
 };
 
 // the complete response object
-type GetUpdatesResponse = {
+export type GetUpdatesResponse = {
   ok: boolean;
   result: [Update];
 };
 
-type SendMessageResponse = {
+export type SendMessageResponse = {
   ok: boolean;
   result: Message;
 };
 
-type CoreACWork = {
+export type CoreACWork = {
   accepted_date: Date;
   authors: [string];
   contributors: [string];
@@ -83,7 +83,7 @@ type CoreACWork = {
   last_update: Date;
 };
 
-type CoreACSearchResponse = {
+export type CoreACSearchResponse = {
   totalHits: number;
   limit: number;
   offset: number;
@@ -93,4 +93,4 @@ type CoreACSearchResponse = {
   esTook: number;
 };
 
-type HuggingFaceResponse = [{ summary_text: string }];
+export type HuggingFaceResponse = [{ summary_text: string }];
