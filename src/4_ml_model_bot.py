@@ -26,8 +26,9 @@ def parse_response(update_info: UpdateInfo):
     for s in core_ac_response['results']:
       abstracts_text += f"{s['abstract']}\n"
   except:
-    print(f'crashed core ac api. Reason: {core_ac_response["message"]}')
-    return_msg = f'Sorry, request failed at CoreAc API. Reason: {core_ac_response["message"]}. Retry'
+    error_msg = core_ac_response["message"]
+    print(f'crashed core ac api. Reason: {error_msg}')
+    return_msg = f'Sorry, request failed at CoreAc API. Reason: {error_msg}. Retry'
     requests.post(
       telegram_url+'/sendMessage', 
       json={
@@ -59,9 +60,9 @@ def parse_response(update_info: UpdateInfo):
       }
     )
   except:
-    print(f"crashed hugging face api. Reason: {hugging_face_obj['error']}")
-    return_msg = f"\
-      Sorry, request failed at HuggingFace API. Reason: {hugging_face_obj['error']}. Retry"
+    error_msg = hugging_face_obj['error']
+    print(f"crashed hugging face api. Reason: {error_msg}")
+    return_msg = f"Sorry, request failed at HuggingFace API. Reason: {error_msg}. Retry"
     requests.post(
       telegram_url+'/sendMessage', 
       json={
