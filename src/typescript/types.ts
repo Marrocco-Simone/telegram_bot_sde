@@ -60,7 +60,7 @@ export type CoreACWork = {
   created_date: Date;
   data_provider: [string];
   deposited_date: Date;
-  abstringact: string;
+  abstract: string;
   document_type: string;
   doi: string;
   oai: string;
