@@ -1,3 +1,9 @@
+export type UpdateInfo = {
+  chat_id: string;
+  sender: string;
+  message: string;
+}
+
 export type User = {
   // unique id of the user
   id: number;
