@@ -12,15 +12,15 @@ load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 
 # urls
-telegram_url = 'https://api.telegram.org/bot'+BOT_TOKEN
+telegram_url = f'https://api.telegram.org/bot{BOT_TOKEN}'
 
 def startServerPolling(parse_response: Callable[[UpdateInfo], None]):
-  print('Server online. Waiting...\n')
+  print('Server online. Waiting...')
   # id of the last parsed message
   last_update = 0
   while True:
     r = requests.get(
-      telegram_url+'/getUpdates', 
+      f'{telegram_url}/getUpdates', 
       params={
         'offset': last_update
       }
