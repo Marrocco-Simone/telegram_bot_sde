@@ -4,7 +4,8 @@ from common.methods.sendTelegramMessage import sendTelegramMessage
 from common.methods.startServer import startServerPolling
 
 def parse_response(update_info: UpdateInfo):
-  core_ac_response = getResearchPapers(update_info)
+  keyword = update_info['message']
+  core_ac_response = getResearchPapers(keyword)
 
   try:
     # send a message for each abstract received

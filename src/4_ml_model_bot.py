@@ -8,8 +8,9 @@ from common.methods.useMlModel import useMlModel
 def parse_response(update_info: UpdateInfo):
   start = time()
 
-  core_ac_response = getResearchPapers(update_info)
-
+  keyword = update_info['message']
+  core_ac_response = getResearchPapers(keyword)
+  
   abstracts_text = ""
   try:
     for s in core_ac_response['results']:
