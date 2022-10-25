@@ -9,9 +9,11 @@ def parse_response(update_info: UpdateInfo):
   try:
     # send a message for each abstract received
     for s in core_ac_response['results']:
-      sendTelegramMessage(update_info['chat_id'], s['abstract'])
+      return_msg = s['abstract']
+      sendTelegramMessage(update_info['chat_id'], return_msg)
   except:
     print(f"ERROR: {core_ac_response}")
-    sendTelegramMessage(update_info['chat_id'], 'Error getting the research papers')
+    return_msg = 'Error getting the research papers'
+    sendTelegramMessage(update_info['chat_id'], return_msg)
 
 startServerPolling(parse_response)
