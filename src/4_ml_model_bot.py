@@ -10,11 +10,9 @@ from common.methods.startServer import startServerPolling
 from dotenv import load_dotenv
 import os
 load_dotenv()
-BOT_TOKEN = os.getenv('BOT_TOKEN')
 HUGGING_FACE_TOKEN = os.getenv('HUGGING_FACE_TOKEN')
 
 # urls
-telegram_url = 'https://api.telegram.org/bot'+BOT_TOKEN
 huggin_face_url = 'https://api-inference.huggingface.co/models/google/bigbird-pegasus-large-pubmed'
 
 def parse_response(update_info: UpdateInfo):
