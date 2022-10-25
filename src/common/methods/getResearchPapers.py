@@ -10,6 +10,7 @@ CORE_AC_TOKEN = os.getenv('CORE_AC_TOKEN')
 core_ac_url = 'https://api.core.ac.uk/v3/search/works/'
 
 def getResearchPapers(keyword: str):
+  '''function to get research papers from the Core Ac API from a keyword'''
   r = requests.get(
     core_ac_url, 
     params={

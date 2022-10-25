@@ -14,6 +14,7 @@ BOT_TOKEN = os.getenv('BOT_TOKEN')
 telegram_url = f'https://api.telegram.org/bot{BOT_TOKEN}'
 
 def startServerPolling(parse_response: Callable[[UpdateInfo], None]):
+  '''start the telegram listener with polling (aka constantly asking'''
   print('Server online. Waiting...')
   # id of the last parsed message
   last_update = 0

@@ -7,6 +7,7 @@ class UpdateInfo(TypedDict):
   message: str
 
 def parseUpdate(update: Update) -> UpdateInfo:
+  '''extract and return the useful fields from an Update. It also logs them'''
   chat_id = update['message']['chat']['id']
   sender = update['message']['chat']['username']
   message = update['message']['text']
