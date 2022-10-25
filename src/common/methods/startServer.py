@@ -1,17 +1,7 @@
 from time import sleep
-import requests
 from typing import Callable
+from common.methods.getTelegramUpdates import getTelegramUpdates
 from common.methods.parseUpdate import UpdateInfo, parseUpdate
-from common.classes.classes import GetUpdatesResponse
-
-# retrieve tokens from .env file
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-BOT_TOKEN = os.getenv('BOT_TOKEN')
-
-telegram_url = f'https://api.telegram.org/bot{BOT_TOKEN}'
 
 def startServerPolling(parse_response: Callable[[UpdateInfo], None]):
   '''start the telegram listener with polling (aka constantly asking'''
@@ -19,13 +9,7 @@ def startServerPolling(parse_response: Callable[[UpdateInfo], None]):
   # id of the last parsed message
   last_update = 0
   while True:
-    r = requests.get(
-      f'{telegram_url}/getUpdates', 
-      params={
-        'offset': last_update
-      }
-    )
-    response: GetUpdatesResponse = r.json()
+    response = getTelegramUpdates(last_update)
 
     if len(response['result']) > 0:
       for update in response['result']:
