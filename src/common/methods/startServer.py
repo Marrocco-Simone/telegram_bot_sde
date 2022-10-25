@@ -15,7 +15,7 @@ telegram_url = f'https://api.telegram.org/bot{BOT_TOKEN}'
 
 def startServerPolling(parse_response: Callable[[UpdateInfo], None]):
   '''start the telegram listener with polling (aka constantly asking'''
-  print('Server online. Waiting...')
+  print('Server online. Searching for new messages...')
   # id of the last parsed message
   last_update = 0
   while True:
@@ -33,4 +33,5 @@ def startServerPolling(parse_response: Callable[[UpdateInfo], None]):
         parse_response(update_info)
         last_update = update['update_id']+1
 
+    print('Waiting for new messages...')
     sleep(1)

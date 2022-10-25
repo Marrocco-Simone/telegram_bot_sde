@@ -11,7 +11,7 @@ def parseUpdate(update: Update) -> UpdateInfo:
   chat_id = update['message']['chat']['id']
   sender = update['message']['chat']['username']
   message = update['message']['text']
-  print(f"\n{sender} says: {message}")
+  print(f"{sender} says: {message}")
   update_info: UpdateInfo = { 
     "chat_id": chat_id, 
     "sender": sender, 
