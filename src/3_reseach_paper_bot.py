@@ -16,10 +16,11 @@ telegram_url = 'https://api.telegram.org/bot'+BOT_TOKEN
 def parse_response(update_info: UpdateInfo):
   core_ac_response = getResearchPapers(update_info, CORE_AC_TOKEN)
 
-  # send a message for each abstract received
-  for s in core_ac_response['results']:
-    return_msg = s['abstract']
-    sendTelegramMessage(update_info['chat_id'], return_msg)
-
+  try:
+    # send a message for each abstract received
+    for s in core_ac_response['results']:
+      sendTelegramMessage(update_info['chat_id'], s['abstract'])
+  except:
+    sendTelegramMessage(update_info['chat_id'], 'Error getting the research papers')
 
 startServerPolling(parse_response)
