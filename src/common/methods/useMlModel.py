@@ -7,7 +7,6 @@ import os
 load_dotenv()
 HUGGING_FACE_TOKEN = os.getenv('HUGGING_FACE_TOKEN')
 
-# urls
 huggin_face_url = 'https://api-inference.huggingface.co/models/google/bigbird-pegasus-large-pubmed'
 
 def useMlModel(abstracts_text: str):

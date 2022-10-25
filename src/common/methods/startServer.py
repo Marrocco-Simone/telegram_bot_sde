@@ -11,7 +11,6 @@ import os
 load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 
-# urls
 telegram_url = f'https://api.telegram.org/bot{BOT_TOKEN}'
 
 def startServerPolling(parse_response: Callable[[UpdateInfo], None]):
