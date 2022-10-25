@@ -13,8 +13,7 @@ def startServerPolling(parse_response: Callable[[UpdateInfo], None]):
 
     if len(response['result']) > 0:
       for update in response['result']:
-        update_info = parseUpdate(update)
-        parse_response(update_info)
+        parseUpdate(update, parse_response)
         last_update = update['update_id']+1
 
     sleep(1)

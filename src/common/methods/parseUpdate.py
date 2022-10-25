@@ -1,4 +1,4 @@
-from typing import TypedDict
+from typing import Callable, TypedDict
 from common.classes.classes import Update
 
 class UpdateInfo(TypedDict):
@@ -6,8 +6,8 @@ class UpdateInfo(TypedDict):
   sender: str
   message: str
 
-def parseUpdate(update: Update) -> UpdateInfo:
-  '''extract and return the useful fields from an Update. It also logs them'''
+def parseUpdate(update: Update, parse_response: Callable[[UpdateInfo], None]) -> UpdateInfo:
+  '''parse a single update by logging it, getting the important fields and calling parse_response()'''
   chat_id = update['message']['chat']['id']
   sender = update['message']['chat']['username']
   message = update['message']['text']
@@ -17,4 +17,4 @@ def parseUpdate(update: Update) -> UpdateInfo:
     "sender": sender, 
     "message": message 
   }
-  return update_info
+  parse_response(update_info)
