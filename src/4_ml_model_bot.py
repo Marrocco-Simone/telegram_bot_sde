@@ -1,19 +1,9 @@
 from time import time
-import requests
-from common.classes.hugging_face_classes import HuggingFaceResponse
 from common.methods.getResearchPapers import getResearchPapers
 from common.methods.parseUpdate import UpdateInfo
 from common.methods.sendTelegramMessage import sendTelegramMessage
 from common.methods.startServer import startServerPolling
-
-# retrieve tokens from .env file
-from dotenv import load_dotenv
-import os
-load_dotenv()
-HUGGING_FACE_TOKEN = os.getenv('HUGGING_FACE_TOKEN')
-
-# urls
-huggin_face_url = 'https://api-inference.huggingface.co/models/google/bigbird-pegasus-large-pubmed'
+from common.methods.useMlModel import useMlModel
 
 def parse_response(update_info: UpdateInfo):
   start = time()
@@ -30,17 +20,11 @@ def parse_response(update_info: UpdateInfo):
     return_msg = f'Sorry, request failed at CoreAc API. Reason: {error_msg}. Retry'
     sendTelegramMessage(update_info['chat_id'], return_msg)
     return
+
   print(f'CoreAc responded with {len(core_ac_response["results"])} results, out of {core_ac_response["totalHits"]}')
   print(f"lenght of the abstract composition: {len(abstracts_text)}")
 
-  hugging_face_response = requests.post(
-    huggin_face_url, 
-    headers={
-      "Authorization": f"Bearer {HUGGING_FACE_TOKEN}"
-    }, 
-    json=abstracts_text
-  )
-  hugging_face_obj: HuggingFaceResponse = hugging_face_response.json()
+  hugging_face_obj = useMlModel(abstracts_text)
   print('HuggingFace responded')
 
   try:
