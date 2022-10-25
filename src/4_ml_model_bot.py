@@ -7,6 +7,7 @@ from common.methods.summarizeWithML import summarizeWithML
 
 def parse_response(update_info: UpdateInfo):
   start = time()
+  sendTelegramMessage(update_info['chat_id'], "Elaborating request...")
 
   keyword = update_info['message']
   core_ac_response = getResearchPapers(keyword)
@@ -22,7 +23,9 @@ def parse_response(update_info: UpdateInfo):
     sendTelegramMessage(update_info['chat_id'], return_msg)
     return
 
-  print(f'CoreAc responded with {len(core_ac_response["results"])} results, out of {core_ac_response["totalHits"]}')
+  core_ac_log = f'CoreAc responded with {len(core_ac_response["results"])} results, out of {core_ac_response["totalHits"]}'
+  sendTelegramMessage(update_info['chat_id'], core_ac_log)
+  print(core_ac_log)
   print(f"lenght of the abstract composition: {len(abstracts_text)}")
 
   hugging_face_obj = summarizeWithML(abstracts_text)
