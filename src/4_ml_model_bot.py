@@ -3,7 +3,7 @@ from common.methods.getResearchPapers import getResearchPapers
 from common.methods.parseUpdate import UpdateInfo
 from common.methods.sendTelegramMessage import sendTelegramMessage
 from common.methods.startServer import startServerPolling
-from common.methods.useMlModel import useMlModel
+from common.methods.summarizeWithML import summarizeWithML
 
 def parse_response(update_info: UpdateInfo):
   start = time()
@@ -25,7 +25,7 @@ def parse_response(update_info: UpdateInfo):
   print(f'CoreAc responded with {len(core_ac_response["results"])} results, out of {core_ac_response["totalHits"]}')
   print(f"lenght of the abstract composition: {len(abstracts_text)}")
 
-  hugging_face_obj = useMlModel(abstracts_text)
+  hugging_face_obj = summarizeWithML(abstracts_text)
   print('HuggingFace responded')
 
   try:
