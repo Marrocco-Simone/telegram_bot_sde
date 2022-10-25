@@ -1,5 +1,5 @@
-import requests
 from common.methods.parseUpdate import UpdateInfo
+from common.methods.sendDice import sendDice
 from common.methods.sendTelegramMessage import sendTelegramMessage
 from common.methods.startServer import startServerPolling
 
@@ -14,20 +14,12 @@ telegram_url = 'https://api.telegram.org/bot'+BOT_TOKEN
 
 stored_data: str = ''
 
-def send_dice(chat_id: str):
-  requests.post(
-    telegram_url+'/sendDice', 
-    json={
-      'chat_id': chat_id
-    }
-  )
-
 def execute_command(chat_id: str, sender: str, command: str, msg_args: str):  
   global stored_data
   return_msg = 'This command is not currently supported'
 
   if command == 'dice':
-    send_dice(chat_id)
+    sendDice(chat_id)
     return
 
   if command == 'start' or command == 'help':
@@ -47,7 +39,7 @@ Possible commands:
     stored_data = msg_args
     return_msg = 'You have stored: ' + stored_data
 
-  sendTelegramMessage(['chat_id'], return_msg)
+  sendTelegramMessage(chat_id, return_msg)
 
 def parse_response(update_info: UpdateInfo):
   if update_info["message"].startswith('/'):
