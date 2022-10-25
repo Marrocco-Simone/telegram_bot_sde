@@ -11,7 +11,6 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
-CORE_AC_TOKEN = os.getenv('CORE_AC_TOKEN')
 HUGGING_FACE_TOKEN = os.getenv('HUGGING_FACE_TOKEN')
 
 # urls
@@ -21,7 +20,7 @@ huggin_face_url = 'https://api-inference.huggingface.co/models/google/bigbird-pe
 def parse_response(update_info: UpdateInfo):
   start = time()
 
-  core_ac_response = getResearchPapers(update_info, CORE_AC_TOKEN)
+  core_ac_response = getResearchPapers(update_info)
 
   abstracts_text = ""
   try:
