@@ -15,7 +15,13 @@ def getTelegramUpdates(last_update: int):
   r = requests.get(
       f'{telegram_url}/getUpdates', 
       params={
-        'offset': last_update
+        'offset': last_update,
+        'allowed_updates':['message'],
+        # we only want messages sent by the user (we ignore everything else)
+        'timeout': 0
+        # Timeout in seconds for long polling.
+        # It should be set to a higher value if the bot is deployed, 
+        # but for testing purposes it is ok to keep it to 0
       }
     )
   response: GetUpdatesResponse = r.json()
