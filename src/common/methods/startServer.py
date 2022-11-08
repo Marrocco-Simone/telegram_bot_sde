@@ -5,7 +5,8 @@ from common.methods.parseUpdate import UpdateInfo, parseUpdate
 import threading
 
 def startServerPolling(parse_response: Callable[[UpdateInfo], None]):
-  '''start the telegram listener with polling (aka constantly asking'''
+  '''start the telegram listener with polling'''
+
   print("Server online. Waiting...")
   # id of the last parsed message
   last_update = 0

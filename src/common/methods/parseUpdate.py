@@ -6,12 +6,15 @@ class UpdateInfo(TypedDict):
   sender: str
   message: str
 
-def parseUpdate(update: Update, parse_response: Callable[[UpdateInfo], None]) -> UpdateInfo:
+def parseUpdate(update: Update, parse_response: Callable[[UpdateInfo], None]):
+
   '''parse a single update by logging it, getting the important fields and calling parse_response()'''
+
   chat_id = update['message']['chat']['id']
   sender = update['message']['chat']['username']
   message = update['message']['text']
   print(f"{sender} says: {message}")
+
   update_info: UpdateInfo = { 
     "chat_id": chat_id, 
     "sender": sender, 
