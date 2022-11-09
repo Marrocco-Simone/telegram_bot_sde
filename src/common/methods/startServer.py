@@ -19,7 +19,7 @@ def startServerPolling(parse_response: Callable[[UpdateInfo], None]):
         # threading
         new_thread = threading.Thread(target=parseUpdate, args=(update, parse_response))
         new_thread.start()
-
+        
         last_update = update['update_id']+1
 
     sleep(1)
