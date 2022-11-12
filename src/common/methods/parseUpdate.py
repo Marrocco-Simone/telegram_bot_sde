@@ -23,4 +23,3 @@ def parseUpdate(update: Update, parse_response: Callable[[UpdateInfo], None]):
     }
     parse_response(update_info)
 
-  

@@ -1,3 +1,4 @@
+import json
 import requests
 from common.classes.core_ac_classes import CoreACSearchResponse
 
@@ -19,5 +20,10 @@ def getResearchPapers(keyword: str):
     }, 
     headers = {"Authorization": f"Bearer {CORE_AC_TOKEN}"}
   )
-  core_ac_response: CoreACSearchResponse = r.json()
-  return core_ac_response
+  #print(r.headers)
+  if(int(r.headers['X-RateLimit-Remaining'])>1):
+    core_ac_response: CoreACSearchResponse = r.json()
+    return core_ac_response
+  else:
+    return json.loads('{"error":"X-RateLimit-Remaining is at 0. Retry later at '+r.headers['X-RateLimit-Retry-After']+'"}')
+  

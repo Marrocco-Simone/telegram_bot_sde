@@ -14,12 +14,20 @@ def parse_response(update_info: UpdateInfo):
   
   abstracts_text = ""
   try:
-    for s in core_ac_response['results']:
-      abstracts_text += f"{s['abstract']}\n"
+    if len(core_ac_response['results'])==0:
+      #if no paper is found, tell user what happened
+      sendTelegramMessage(update_info['chat_id'], 'CoreAC was not able to find any result for '+keyword)
+      return
+    else:
+      #retrive abstract from CoreAc response
+      for s in core_ac_response['results']:
+        abstracts_text += f"{s['abstract']}\n"
   except:
-    error_msg = core_ac_response["message"]
-    print(f'crashed core ac api. Reason: {error_msg}')
-    return_msg = f'Sorry, request failed at CoreAc API. Reason: {error_msg}. Retry'
+    print(f"ERROR: {core_ac_response}")
+    if('error' in core_ac_response.keys()):
+      return_msg = keyword+': Error getting the research papers: '+core_ac_response['error']
+    else: 
+      return_msg = keyword+': Unknown error getting the research papers. Please retry later.'; 
     sendTelegramMessage(update_info['chat_id'], return_msg)
     return
 

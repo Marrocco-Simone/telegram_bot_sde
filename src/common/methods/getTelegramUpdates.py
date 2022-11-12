@@ -13,14 +13,15 @@ telegram_url = f'https://api.telegram.org/bot{BOT_TOKEN}'
 def getTelegramUpdates(last_update: int):
   '''get the recent updates from telegram'''
   r = requests.get(
-      f'{telegram_url}/getUpdates', 
+      f'{telegram_url}/getUpdates',
       params={
         'offset': last_update,
+        # offset
         'allowed_updates':['message'],
         # we only want messages sent by the user (we ignore everything else)
         'timeout': 0
         # Timeout in seconds for long polling.
-        # It should be set to a higher value if the bot is deployed, 
+        # It should be set to a higher value if the bot is deployed,
         # but for testing purposes it is ok to keep it to 0
       }
     )
