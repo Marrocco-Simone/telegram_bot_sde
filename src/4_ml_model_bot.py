@@ -1,4 +1,5 @@
 from time import time
+from common.classes.classes import ResponseException
 from common.methods.getResearchPapers import getResearchPapers
 from common.methods.parseUpdate import UpdateInfo
 from common.methods.sendTelegramMessage import sendTelegramMessage
@@ -36,8 +37,27 @@ def parse_response(update_info: UpdateInfo):
   print(core_ac_log)
   print(f"lenght of the abstract composition: {len(abstracts_text)}")
 
-  hugging_face_obj = summarizeWithML(abstracts_text)
-  print('HuggingFace responded')
+  # Send a message to the user informing him that the summarization could take time
+  return_msg = f"Summarizing the paper Abstracts, this can take some time..."
+  sendTelegramMessage(update_info['chat_id'], return_msg)
+
+  # call summarizeWithML giving in input the abstracts text and
+  # properly handle the ResponseException it could arise, sending a
+  # message to the user informing him about the problem, then return
+  try:
+    hugging_face_obj = summarizeWithML(abstracts_text)
+    print('HuggingFace responded')
+  except ResponseException:
+    return_msg = f"Sorry, request failed at HuggingFace API. Reason: Model is loading, wait some time and retry"
+    sendTelegramMessage(update_info['chat_id'], return_msg)
+    return
+
+  # Send a message to the user, containing the summarized text.
+  # Remember to properly handle a possible exception, if that happen
+  # you can access the error message by doing hugging_face_obj['error']
+  # send a message informing the user.
+  # hint: you can access the summarized text by doing
+  # hugging_face_obj[0]['summary_text']
 
   try:
     return_msg = hugging_face_obj[0]['summary_text']
