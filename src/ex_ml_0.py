@@ -35,7 +35,7 @@ def summarizeWithML(text_to_summarize: str):
 
   if response.status_code == 503:
     print("error, model is loading, wait and try again")
-    return 
+    return HuggingFaceResponse
 
   # 3 Assign the json contained in the body of the response to a new 
   # huggingFaceResponse object
