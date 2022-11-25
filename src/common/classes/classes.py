@@ -46,3 +46,8 @@ class GetUpdatesResponse(TypedDict):
 class SendMessageResponse(TypedDict):
   ok: bool
   result: Message
+
+class ResponseException(Exception):
+  def __init__(self, message):            
+    # Call the base class constructor with the parameters it needs
+    super().__init__(message)
