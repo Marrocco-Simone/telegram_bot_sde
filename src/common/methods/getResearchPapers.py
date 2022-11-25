@@ -21,9 +21,17 @@ def getResearchPapers(keyword: str):
     headers = {"Authorization": f"Bearer {CORE_AC_TOKEN}"}
   )
   #print(r.headers)
-  if(int(r.headers['X-RateLimit-Remaining'])>1):
+
+  x_ratelimit_remaining = 2
+
+  try:
+    x_ratelimit_remaining = int(r.headers['X-RateLimit-Remaining'])
+  except(KeyError):
+    pass
+  
+
+  if(x_ratelimit_remaining>1):
     core_ac_response: CoreACSearchResponse = r.json()
     return core_ac_response
   else:
     return json.loads('{"error":"X-RateLimit-Remaining is at 0. Retry later at '+r.headers['X-RateLimit-Retry-After']+'"}')
-  
