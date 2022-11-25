@@ -36,5 +36,3 @@ def summarizeWithML(text_to_summarize: str):
   # hint: https://requests.readthedocs.io/en/latest/user/quickstart/#json-response-content
 
   # 4 Return a huggingFaceResponse object containing the response
-
-# 5 Call the function and print the result
