@@ -37,11 +37,11 @@ def parse_response(update_info: UpdateInfo):
   print(core_ac_log)
   print(f"lenght of the abstract composition: {len(abstracts_text)}")
 
-  # Send a message to the user informing him that the summarization could take time
+  # 2. Send a message to the user informing him that the summarization could take time
   return_msg = f"Summarizing the paper Abstracts, this can take some time..."
   sendTelegramMessage(update_info['chat_id'], return_msg)
 
-  # call summarizeWithML giving in input the abstracts text and
+  # 1. call summarizeWithML giving in input the abstracts text and
   # properly handle the ResponseException it could arise, sending a
   # message to the user informing him about the problem, then return
   try:
@@ -52,7 +52,7 @@ def parse_response(update_info: UpdateInfo):
     sendTelegramMessage(update_info['chat_id'], return_msg)
     return
 
-  # Send a message to the user, containing the summarized text.
+  # 3. Send a message to the user, containing the summarized text.
   # Remember to properly handle a possible exception, if that happen
   # you can access the error message by doing hugging_face_obj['error']
   # send a message informing the user.
