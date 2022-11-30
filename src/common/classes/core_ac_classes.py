@@ -44,3 +44,8 @@ class CoreACSearchResponse(TypedDict):
   results: List[CoreACWork]
   tooks: List[str]
   esTook: int
+
+class CoreACException(Exception):
+  def __init__(self, message):            
+    # Call the base class constructor with the parameters it needs
+    super().__init__(message)

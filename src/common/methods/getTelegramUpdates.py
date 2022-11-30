@@ -16,9 +16,10 @@ def getTelegramUpdates(last_update: int):
       f'{telegram_url}/getUpdates',
       params={
         'offset': last_update,
-        # offset
+        # offset lets us skip old updates that we do not want to receive
         'allowed_updates':['message'],
-        # we only want messages sent by the user (we ignore everything else)
+        # an aray with the types of content that we want to read from Telegram.
+        # We only want messages sent by the user (we ignore everything else)
         'timeout': 0
         # Timeout in seconds for long polling.
         # It should be set to a higher value if the bot is deployed,
