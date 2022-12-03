@@ -27,7 +27,6 @@ def parseResponse(update_info: UpdateInfo):
         else:
             for paper in response['results']:
                 # TODO 1: Missing code here
-                abstracts_text += paper['abstract'] + "\n"
     except Exception:
         return_msg = 'Error getting the research papers. Please retry later.'
         sendTelegramMessage(chat_id, return_msg)
@@ -41,9 +40,6 @@ def parseResponse(update_info: UpdateInfo):
 
     try:
         # TODO 2: call summarizeWithML() function to summarize the abstracts and send the result to the user
-        hugging_face_obj = summarizeWithML(abstracts_text)
-        return_msg = hugging_face_obj[0]['summary_text']
-        sendTelegramMessage(chat_id, return_msg)
 
     except ResponseException as e:
         # Handles a Hugging Face exception occuring when the model is
@@ -54,8 +50,6 @@ def parseResponse(update_info: UpdateInfo):
 
     # TODO 3: Handle other exceptions that could arise and inform the user with a message
     except:
-        return_msg = "Sorry, request failed at HuggingFace API."
-        sendTelegramMessage(chat_id, return_msg)
 
 
 startServerPolling(parseResponse)
