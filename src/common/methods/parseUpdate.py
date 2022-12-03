@@ -14,10 +14,9 @@ def parseUpdate(update: Update, parseResponse: Callable[[UpdateInfo], None]):
 
     chat_id = update['message']['chat']['id']
     sender = update['message']['chat']['username']
-    if ('text' in update['message'].keys()):
+    
+    if 'text' in update['message'].keys():
         message = update['message']['text']
-        print(f"{sender} says: {message}")
-
         update_info: UpdateInfo = {
             "chat_id": chat_id,
             "sender": sender,
