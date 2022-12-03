@@ -6,9 +6,15 @@ from common.methods.startServer import startServerPolling
 from common.methods.summarizeWithML import summarizeWithML
 
 
-def parse_response(update_info: UpdateInfo):
-    keyword = update_info['message']
+def parseResponse(update_info: UpdateInfo):
+    sender = update_info['sender']
+    message = update_info['message']
+    # use this keyword to search the papers
+    keyword = message
+    # send the messages to this chat
     chat_id = update_info['chat_id']
+    print(f"User {sender} sent {keyword} on chat {chat_id}")
+
     abstracts_text = ""
 
     sendTelegramMessage(chat_id, "Elaborating request...")
@@ -52,4 +58,4 @@ def parse_response(update_info: UpdateInfo):
         sendTelegramMessage(chat_id, return_msg)
 
 
-startServerPolling(parse_response)
+startServerPolling(parseResponse)
