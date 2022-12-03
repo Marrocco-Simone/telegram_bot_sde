@@ -9,8 +9,8 @@ class UpdateInfo(TypedDict):
     message: str
 
 
-def parseUpdate(update: Update, parse_response: Callable[[UpdateInfo], None]):
-    '''parse a single update by logging it, getting the important fields and calling parse_response()'''
+def parseUpdate(update: Update, parseResponse: Callable[[UpdateInfo], None]):
+    '''parse a single update by logging it, getting the important fields and calling parseResponse()'''
 
     chat_id = update['message']['chat']['id']
     sender = update['message']['chat']['username']
@@ -23,4 +23,4 @@ def parseUpdate(update: Update, parse_response: Callable[[UpdateInfo], None]):
             "sender": sender,
             "message": message
         }
-        parse_response(update_info)
+        parseResponse(update_info)

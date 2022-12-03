@@ -4,7 +4,7 @@ from common.methods.sendTelegramMessage import sendTelegramMessage
 from common.methods.startServer import startServerPolling
 
 
-def parse_response(update_info: UpdateInfo):
+def parseResponse(update_info: UpdateInfo):
     keyword = update_info['message']
     chat_id = update_info['chat_id']
 
@@ -22,4 +22,4 @@ def parse_response(update_info: UpdateInfo):
         sendTelegramMessage(chat_id, return_msg)
 
 
-startServerPolling(parse_response)
+startServerPolling(parseResponse)

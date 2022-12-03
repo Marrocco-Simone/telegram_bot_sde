@@ -2,7 +2,7 @@ from common.methods.parseUpdate import UpdateInfo
 from common.methods.startServer import startServerPolling
 
 
-def parse_response(update_info: UpdateInfo):
+def parseResponse(update_info: UpdateInfo):
     # use this keyword to search the papers
     keyword = update_info['message']
     # send the messages to this chat
@@ -20,4 +20,4 @@ def parse_response(update_info: UpdateInfo):
 
 
 
-startServerPolling(parse_response)
+startServerPolling(parseResponse)

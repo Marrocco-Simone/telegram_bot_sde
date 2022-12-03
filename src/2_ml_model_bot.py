@@ -6,7 +6,7 @@ from common.methods.startServer import startServerPolling
 from common.methods.summarizeWithML import summarizeWithML
 
 
-def parse_response(update_info: UpdateInfo):
+def parseResponse(update_info: UpdateInfo):
     keyword = update_info['message']
     chat_id = update_info['chat_id']
     abstracts_text = ""
@@ -52,4 +52,4 @@ def parse_response(update_info: UpdateInfo):
         sendTelegramMessage(chat_id, return_msg)
 
 
-startServerPolling(parse_response)
+startServerPolling(parseResponse)

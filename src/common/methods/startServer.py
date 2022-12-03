@@ -6,7 +6,7 @@ from common.methods.getTelegramUpdates import getTelegramUpdates
 from common.methods.parseUpdate import UpdateInfo, parseUpdate
 
 
-def startServerPolling(parse_response: Callable[[UpdateInfo], None]):
+def startServerPolling(parseResponse: Callable[[UpdateInfo], None]):
     '''start the telegram listener with polling'''
 
     print("Server online. Waiting...")
@@ -24,10 +24,10 @@ def startServerPolling(parse_response: Callable[[UpdateInfo], None]):
         if len(response['result']) > 0:
             for update in response['result']:
                 # without threading
-                # parseUpdate(update, parse_response)
+                # parseUpdate(update, parseResponse)
 
                 # with threading
-                new_thread = threading.Thread(target=parseUpdate, args=(update, parse_response))
+                new_thread = threading.Thread(target=parseUpdate, args=(update, parseResponse))
                 new_thread.start()
 
                 last_update = update['update_id'] + 1
