@@ -3,10 +3,13 @@ from common.methods.startServer import startServerPolling
 
 
 def parseResponse(update_info: UpdateInfo):
+    sender = update_info['sender']
+    message = update_info['message']
     # use this keyword to search the papers
-    keyword = update_info['message']
+    keyword = message
     # send the messages to this chat
     chat_id = update_info['chat_id']
+    print(f"User {sender} sent {keyword} on chat {chat_id}")
 
     # exercise 3:
     # use getResearchPaper() to retrieve the first 5 papers from the API

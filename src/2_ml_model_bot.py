@@ -7,8 +7,14 @@ from common.methods.summarizeWithML import summarizeWithML
 
 
 def parseResponse(update_info: UpdateInfo):
-    keyword = update_info['message']
+    sender = update_info['sender']
+    message = update_info['message']
+    # use this keyword to search the papers
+    keyword = message
+    # send the messages to this chat
     chat_id = update_info['chat_id']
+    print(f"User {sender} sent {keyword} on chat {chat_id}")
+
     abstracts_text = ""
 
     sendTelegramMessage(chat_id, "Elaborating request...")
