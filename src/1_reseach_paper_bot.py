@@ -8,7 +8,7 @@ def parse_response(update_info: UpdateInfo):
     # send the messages to this chat
     chat_id = update_info['chat_id']
 
-    # exercise 3:
+    # exercise:
     # use getResearchPaper() to retrieve the first 5 papers from the API
     # and send their abstracts back with sendTelegramMessage().
     # Remember to put your code inside a try-except block
