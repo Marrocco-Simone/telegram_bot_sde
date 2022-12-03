@@ -18,7 +18,7 @@ def parse_response(update_info: UpdateInfo):
                 return_msg = paper['abstract']
                 sendTelegramMessage(chat_id, return_msg)
     except:
-        return_msg = 'Error getting the research papers. Please retry later.';
+        return_msg = 'Error getting the research papers. Please retry later.'
         sendTelegramMessage(chat_id, return_msg)
 
 
